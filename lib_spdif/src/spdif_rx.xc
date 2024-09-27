@@ -55,24 +55,10 @@ void spdif_rx(streaming chanend c, in port p, clock clk, unsigned sample_freq_es
         start_clock(clk);
 
         // Check our clock div value is correct
-        if (check_clock_div(*p_buf) == 0)
-           exit = spdif_rx_decode(c, *p_buf, sample_rate);
+        exit = spdif_rx_decode(c, *p_buf, sample_rate);
 
         if(exit)
             break;
-
-        // Get next sample rate from current sample rate.
-        switch(sample_rate)
-        {
-            case 32000:  sample_rate = 44100;  break;
-            case 44100:  sample_rate = 48000;  break;
-            case 48000:  sample_rate = 88200;  break;
-            case 88200:  sample_rate = 96000;  break;
-            case 96000:  sample_rate = 176400; break;
-            case 176400: sample_rate = 192000; break;
-            case 192000: sample_rate = 32000;  break;
-            default:     sample_rate = 48000;  break;
-        }
     }
 
     // Set pointers and ownership back to original state if SpdifReceive() exits
